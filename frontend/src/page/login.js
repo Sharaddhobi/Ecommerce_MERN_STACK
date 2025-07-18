@@ -13,6 +13,7 @@ const Login = () => {
   const handleShowPassword = () => {
     setShowPassword((preve) => !preve);
   };
+  console.log("newwww");
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
