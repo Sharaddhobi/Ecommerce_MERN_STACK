@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import loginSignupImage from "../component/assest/login-animation.gif";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import { BiHide, BiShow } from "react-icons/bi";
 import { ImagetoBase64 } from "../utility/Imagetobase64";
+import { toast } from "react-toastify";
 const Signup = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showconfirmPassword, setShowconfirmPassword] = useState(false);
   const [data, setData] = useState({
@@ -49,8 +51,8 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { firstName, email, password, confirmPassword } = data;
-    if (firstName && email && password && confirmPassword) {
+    const { firstName, email, password, confirmPassword, image } = data;
+    if (firstName && email && password && confirmPassword && image) {
       if (password === confirmPassword) {
         const fetchData = await fetch(
           `${process.env.REACT_APP_SERVER_DOMIN}/signup`,
@@ -65,13 +67,23 @@ const Signup = () => {
 
         const dataRes = await fetchData.json();
         console.log(dataRes);
-        alert(dataRes.message);
-        // navigate("/login");
+        // alert(dataRes.message);
+
+        toast(dataRes.message, {
+          position: "top-right",
+        });
+        if (dataRes.alert) {
+          navigate("/login");
+        }
       } else {
-        alert("password and confirm password not equal");
+        toast.error("Password and ConfirmPassword is not match", {
+          position: "top-right",
+        });
       }
     } else {
-      alert("Please Enter require filds");
+      toast.error("Enter all fields.....", {
+        position: "top-right",
+      });
     }
   };
 
