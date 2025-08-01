@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: MONGODB_URL
+        value: mongodb+srv://sharaddhobi16:sharad16@cluster0.kljnr8i.mongodb.net/amitEccommerce?retryWrites=true&w=majority&appName=Cluster0
