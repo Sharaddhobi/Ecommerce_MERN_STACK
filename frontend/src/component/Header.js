@@ -21,9 +21,10 @@ const Header = () => {
     dispatch(logoutRedux());
     toast("logout successfully");
   };
-  console.log(process.env.REACT_APP_ADMIN_EMAIL);
+  // console.log(process.env.REACT_APP_ADMIN_EMAIL);
+  const cartItemNumber = useSelector((state) => state.product.cartItem);
   return (
-    <header className="fixed shadow-md w-full h-16 px-2 md:px-4 z-50 bg-white">
+    <header className="sticky shadow-md w-full h-16 px-2 md:px-4 z-50 bg-white">
       {/*desktop*/}
 
       <div className="flex items-center h-full justify-between">
@@ -33,17 +34,20 @@ const Header = () => {
           </div>
         </Link>
         <div className="flex items-center gap-4  md:gap-7">
-          <nav className="flex gap-4 md:gap-6 text-base md:text-lg">
+          <nav className="gap-4 md:gap-6 text-base md:text-lg hidden md:flex">
             <Link to={""}> Home </Link>
-            <Link to={"menu"}> Menu </Link>
+            <Link to={"menu/687f85d4aac71bbefe3efa64"}> Menu </Link>
             <Link to={"about"}> About </Link>
             <Link to={"contect"}> Contect </Link>
           </nav>
           <div className="text-2xl text-slate-600 relative">
-            <BsCartFill />
-            <div className="absolute -top-2 -right-1 text-white bg-red-500 w-4 rounded-full m-0 p-0 g-4 text-sm text-center">
-              0
-            </div>
+            <Link to={"cart"}>
+              {" "}
+              <BsCartFill />
+              <div className="absolute -top-2 -right-1 text-white bg-red-500 w-4 rounded-full m-0 p-0 g-4 text-sm text-center">
+                {cartItemNumber.length}
+              </div>
+            </Link>
           </div>
           <div className="text-xl text-slate-600 " onClick={handleShowMenu}>
             <div className="text-3xl cursor-pointer w-8 h-8 rounded-full- overflow-hidden drop-shadow-sm">
@@ -54,7 +58,7 @@ const Header = () => {
               )}
             </div>
             {showMenu && (
-              <div className="absolute right-2 bg-white py-2 shadow-md flex flex-col ">
+              <div className="absolute right-2 bg-white py-2 shadow-md flex flex-col min-w-[120px] text-center">
                 {userData.email === process.env.REACT_APP_ADMIN_EMAIL && (
                   <Link
                     to={"newproduct"}
@@ -79,6 +83,27 @@ const Header = () => {
                     Login
                   </Link>
                 )}
+                <nav className=" text-base md:text-lg flex flex-col md:hidden ">
+                  <Link to={""} className="px-2 py-1">
+                    {" "}
+                    Home{" "}
+                  </Link>
+                  <Link
+                    to={"menu/687f85d4aac71bbefe3efa64"}
+                    className="px-2 py-1"
+                  >
+                    {" "}
+                    Menu{" "}
+                  </Link>
+                  <Link to={"about"} className="px-2 py-1">
+                    {" "}
+                    About{" "}
+                  </Link>
+                  <Link to={"contect"} className="px-2 py-1">
+                    {" "}
+                    Contect{" "}
+                  </Link>
+                </nav>
               </div>
             )}
           </div>

@@ -118,9 +118,27 @@ const schemaProduct = mongoose.Schema({
 });
 const productModel = mongoose.model("product", schemaProduct);
 // save product in data
+
+//product data by id
+app.get("/product/:productId", async (req, res) => {
+  const productId = req.params.productId;
+
+  try {
+    const product = await productModel.findById(productId);
+    if (!product) {
+      return res.send({ success: false, message: "Product not found" });
+    }
+
+    res.send({ success: true, data: product });
+  } catch (error) {
+    // console.error("Error fetching product:", error);
+    res.send({ success: false, message: "Internal server error" });
+  }
+});
+
 //api
 app.post("/uploadProduct", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const data = await productModel(req.body);
   const datasave = await data.save();
   res.send({ message: "upload successfully" });
@@ -132,6 +150,60 @@ app.get("/product", async (req, res) => {
   res.send(data);
 });
 
+//update product by productId
+app.put("/product/update/:productId", async (req, res) => {
+  const productId = req.params.productId;
+
+  const { name, category, price, description, image } = req.body;
+  // console.log(image);
+  try {
+    const product = await productModel.findById(productId);
+
+    if (!product) {
+      return res.send({ type: "error", message: "Product not found" });
+    }
+
+    // Update product's information
+    product.name = name;
+    product.category = category;
+    product.price = price;
+    product.description = description;
+    product.image = image;
+
+    // Save the updated product
+    await product.save();
+
+    res.send({
+      message: "Product Updated Successfully!!!",
+      type: "success",
+    });
+  } catch (error) {
+    // console.error("Error updating product:", error);
+
+    res.send({
+      message: "Fail to update product.",
+      type: "error",
+    });
+  }
+});
+//delete product by id
+app.post("/product/delete/:productId", async (req, res) => {
+  const productId = req.params.productId;
+
+  try {
+    const product = await productModel.findById(productId);
+    if (!product) {
+      return res.send({ message: "Product not found" });
+    }
+
+    await productModel.deleteOne({ _id: productId });
+
+    res.send({ message: "Product deleted successfully", type: "success" });
+  } catch (error) {
+    console.log(error);
+    res.send({ message: "Error deleting product" });
+  }
+});
 // });
 
 //server is ruuning
