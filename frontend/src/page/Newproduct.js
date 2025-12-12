@@ -69,7 +69,7 @@ const Newproduct = () => {
 
   return (
     <div className="p-4">
-      <Form
+      <form
         className="m-auto w-full max-w-md  shadow flex flex-col p-3 bg-white"
         onSubmit={handleSubmit}
       >
@@ -145,7 +145,7 @@ const Newproduct = () => {
         <button className="bg-red-500 hover:bg-red-600 text-white text-lg font-medium my-2 drop-shadow">
           Save
         </button>
-      </Form>
+      </form>
     </div>
   );
 };

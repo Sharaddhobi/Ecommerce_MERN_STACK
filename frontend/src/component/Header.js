@@ -9,8 +9,9 @@ import { toast } from "react-toastify";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const userData = useSelector((state) => state.user);
-  console.log(userData.email);
+  const userData = useSelector((state) => state?.user);
+  const appadminmail = JSON.parse(process.env.REACT_APP_ADMIN_EMAIL);
+  console.log(userData?.email);
   const dispatch = useDispatch();
 
   const handleShowMenu = () => {
@@ -45,21 +46,21 @@ const Header = () => {
               {" "}
               <BsCartFill />
               <div className="absolute -top-2 -right-1 text-white bg-red-500 w-4 rounded-full m-0 p-0 g-4 text-sm text-center">
-                {cartItemNumber.length}
+                {cartItemNumber?.length}
               </div>
             </Link>
           </div>
           <div className="text-xl text-slate-600 " onClick={handleShowMenu}>
             <div className="text-3xl cursor-pointer w-8 h-8 rounded-full- overflow-hidden drop-shadow-sm">
               {userData.image ? (
-                <img src={userData.image} className="h-full w-full" />
+                <img src={userData?.image} className="h-full w-full" />
               ) : (
                 <HiOutlineUserCircle />
               )}
             </div>
             {showMenu && (
               <div className="absolute right-2 bg-white py-2 shadow-md flex flex-col min-w-[120px] text-center">
-                {userData.email === process.env.REACT_APP_ADMIN_EMAIL && (
+                {appadminmail.includes(userData?.email) && (
                   <Link
                     to={"newproduct"}
                     className="whitespace-nowrap cursor-pointer px-2"
@@ -68,12 +69,12 @@ const Header = () => {
                   </Link>
                 )}
 
-                {userData.image ? (
+                {userData?.image ? (
                   <p
                     className="  cursor-pointer   px-2 "
                     onClick={handleLogout}
                   >
-                    Logout ({userData.firstName})
+                    Logout ({userData?.firstName})
                   </p>
                 ) : (
                   <Link
